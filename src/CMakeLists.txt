@@ -24,3 +24,21 @@ target_include_directories(onnxcc_lib
 
 target_compile_options(onnxcc_lib PRIVATE ${ONNXCC_WARNINGS})
 target_compile_options(onnxcc PRIVATE ${ONNXCC_WARNINGS})
+
+# ==========================================
+# PART A: CLI Configuration
+# ==========================================
+
+# 1. The Engine Workshop: Build the CLI library
+add_library(onnxcc_cli cli/cli.cpp)
+
+# 2. The Tools: Tell the CLI library where to find cxxopts.hpp (third_party) 
+# and where to find its own header files.
+target_include_directories(onnxcc_cli PRIVATE 
+    ${CMAKE_CURRENT_SOURCE_DIR}/third_party
+    ${CMAKE_CURRENT_SOURCE_DIR}/..
+)
+
+# 3. The Assembly Line: Bolt the CLI engine into the main executable.
+# (The starter code likely named your main executable 'onnxcc')
+target_link_libraries(onnxcc PRIVATE onnxcc_cli)
